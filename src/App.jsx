@@ -14,6 +14,7 @@ import MenuPage from './pages/MenuPage';
 import OrdersPage from './pages/OrdersPage';
 import StatisticsPage from './pages/StatisticsPage';
 import SettingsPage from './pages/SettingsPage';
+import HallsPage from './pages/HallsPage';
 
 function App() {
 	return (
@@ -60,10 +61,10 @@ function App() {
 					/>
 
 					<Route
-						path='/tables'
+						path='/halls'
 						element={
 							<ProtectedRoute>
-								<TablesPage />
+								<HallsPage />
 							</ProtectedRoute>
 						}
 					/>

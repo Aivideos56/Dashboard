@@ -20,7 +20,6 @@ export default function RestaurantDashboard() {
 	const [orders, setOrders] = useState([]);
 	const [topProducts, setTopProducts] = useState([]);
 	const [revenueData, setRevenueData] = useState([]);
-  console.log(revenueData);
 	useEffect(() => {
 		if (restaurant) {
 			loadData();

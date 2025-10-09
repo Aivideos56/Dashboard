@@ -2,9 +2,9 @@ import { useForm } from 'react-hook-form';
 import { X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { storageUtils } from '../../utils/storage';
+import { addHall, updateHall } from '../../utils/storageExtensions';
 
-export default function SubCategoryModal({ isOpen, onClose, onSuccess, restaurantId, categories, subCategory = null }) {
+export default function HallModal({ isOpen, onClose, onSuccess, restaurantId, hall = null }) {
 	const [loading, setLoading] = useState(false);
 
 	const {
@@ -15,45 +15,39 @@ export default function SubCategoryModal({ isOpen, onClose, onSuccess, restauran
 		setValue,
 	} = useForm({
 		defaultValues: {
-			sort_order: 0,
+			service_charge: 0,
 			is_active: true,
 		},
 	});
 
 	useEffect(() => {
-		if (subCategory) {
-			setValue('name', subCategory.name);
-			setValue('category_id', subCategory.category_id);
-			setValue('sort_order', subCategory.sort_order);
-			setValue('is_active', subCategory.is_active);
+		if (hall) {
+			setValue('name', hall.name);
+			setValue('service_charge', hall.service_charge);
+			setValue('is_active', hall.is_active);
 		}
-	}, [subCategory, setValue]);
+	}, [hall, setValue]);
 
 	const onSubmit = async (data) => {
-		if (!data.category_id) {
-			toast.error('Əsas kateqoriya seçin');
-			return;
-		}
-
 		setLoading(true);
 
 		try {
-			const subCategoryData = {
+			const hallData = {
 				...data,
 				restaurant_id: restaurantId,
-				sort_order: parseInt(data.sort_order),
+				service_charge: parseFloat(data.service_charge) || 0,
 				is_active: data.is_active === true || data.is_active === 'true',
 			};
 
 			let result;
-			if (subCategory) {
-				result = await storageUtils.updateSubCategory(subCategory.id, subCategoryData);
+			if (hall) {
+				result = await updateHall(hall.id, hallData);
 			} else {
-				result = await storageUtils.addSubCategory(subCategoryData);
+				result = await addHall(hallData);
 			}
 
 			if (result.success) {
-				toast.success(subCategory ? 'Alt kateqoriya yeniləndi' : 'Alt kateqoriya əlavə edildi');
+				toast.success(hall ? 'Zal yeniləndi' : 'Zal əlavə edildi');
 				reset();
 				onSuccess(result.data);
 				onClose();
@@ -61,8 +55,8 @@ export default function SubCategoryModal({ isOpen, onClose, onSuccess, restauran
 				toast.error(result.error || 'Xəta baş verdi');
 			}
 		} catch (error) {
-			toast.error('Alt kateqoriya əməliyyatı zamanı xəta baş verdi');
-			console.error('SubCategory operation error:', error);
+			toast.error('Zal əməliyyatı zamanı xəta baş verdi');
+			console.error('Hall operation error:', error);
 		} finally {
 			setLoading(false);
 		}
@@ -74,7 +68,7 @@ export default function SubCategoryModal({ isOpen, onClose, onSuccess, restauran
 		<div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4'>
 			<div className='bg-white rounded-xl shadow-2xl max-w-md w-full'>
 				<div className='px-6 py-4 border-b border-gray-200 flex items-center justify-between'>
-					<h2 className='text-xl font-bold text-gray-900'>{subCategory ? 'Alt Kateqoriyanı Redaktə Et' : 'Yeni Alt Kateqoriya'}</h2>
+					<h2 className='text-xl font-bold text-gray-900'>{hall ? 'Zalı Redaktə Et' : 'Yeni Zal'}</h2>
 					<button onClick={onClose} className='p-2 hover:bg-gray-100 rounded-lg transition'>
 						<X className='w-5 h-5 text-gray-500' />
 					</button>
@@ -82,38 +76,26 @@ export default function SubCategoryModal({ isOpen, onClose, onSuccess, restauran
 
 				<form onSubmit={handleSubmit(onSubmit)} className='p-6 space-y-4'>
 					<div>
-						<label className='block text-sm font-medium text-gray-700 mb-2'>Əsas Kateqoriya *</label>
-						<select
-							{...register('category_id', { required: 'Əsas kateqoriya tələb olunur' })}
-							className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-						>
-							<option value=''>Seçin</option>
-							{categories.map((cat) => (
-								<option key={cat.id} value={cat.id}>
-									{cat.name}
-								</option>
-							))}
-						</select>
-						{errors.category_id && <p className='mt-1 text-sm text-red-600'>{errors.category_id.message}</p>}
-					</div>
-
-					<div>
-						<label className='block text-sm font-medium text-gray-700 mb-2'>Alt Kateqoriya Adı *</label>
+						<label className='block text-sm font-medium text-gray-700 mb-2'>Zal Adı *</label>
 						<input
 							type='text'
-							{...register('name', { required: 'Alt kateqoriya adı tələb olunur' })}
+							{...register('name', { required: 'Zal adı tələb olunur' })}
 							className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+							placeholder='məs: Əsas Zal, VIP Zal'
 						/>
 						{errors.name && <p className='mt-1 text-sm text-red-600'>{errors.name.message}</p>}
 					</div>
 
 					<div>
-						<label className='block text-sm font-medium text-gray-700 mb-2'>Sıralama</label>
+						<label className='block text-sm font-medium text-gray-700 mb-2'>Xidmət Haqqı (%)</label>
 						<input
 							type='number'
-							{...register('sort_order')}
+							step='0.01'
+							{...register('service_charge')}
 							className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+							placeholder='0'
 						/>
+						<p className='mt-1 text-xs text-gray-500'>Bu zalın bütün masalarına avtomatik tətbiq olunur</p>
 					</div>
 
 					<div className='flex items-center'>

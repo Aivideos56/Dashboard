@@ -7,14 +7,20 @@ const STORAGE_KEYS = {
 	TOKEN: 'auth_token',
 };
 
-export const setUser = (userData) => {
+export const setUser = (userData, type = 'restaurant') => {
 	try {
-		localStorage.setItem(STORAGE_KEYS.ADMIN_USER, JSON.stringify(userData));
-		if (userData.restaurant_id) {
-			localStorage.setItem(STORAGE_KEYS.RESTAURANT_ID, userData.restaurant_id);
+		if (type === 'admin') {
+			localStorage.setItem('admin_user', JSON.stringify(userData));
+		} else {
+			localStorage.setItem('restaurant_user', JSON.stringify(userData));
 		}
+
+		if (userData.restaurant_id) {
+			localStorage.setItem('restaurant_id', userData.restaurant_id);
+		}
+
 		if (userData.branch_id) {
-			localStorage.setItem(STORAGE_KEYS.BRANCH_ID, userData.branch_id);
+			localStorage.setItem('branch_id', userData.branch_id);
 		}
 	} catch (error) {
 		console.error('setUser error:', error);
@@ -244,6 +250,7 @@ export const getBranches = async (restaurantId) => {
 		return [];
 	}
 };
+
 export const getOrders = async (restaurantId) => {
 	try {
 		const { data, error } = await supabase.from('completed_orders').select('*').eq('restaurant_id', restaurantId);

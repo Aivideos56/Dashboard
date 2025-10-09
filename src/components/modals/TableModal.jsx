@@ -28,7 +28,7 @@ export default function TableModal({ isOpen, onClose, onSuccess, restaurantId, t
 					status: 'empty',
 			  },
 	});
-  
+
 	useEffect(() => {
 		if (table) {
 			reset({
@@ -68,7 +68,7 @@ export default function TableModal({ isOpen, onClose, onSuccess, restaurantId, t
 			if (result.success) {
 				toast.success(table ? 'Masa yeniləndi' : 'Masa əlavə edildi');
 				reset();
-				onSuccess(result.data);
+				onSuccess?.(result.data);
 				onClose();
 			} else {
 				toast.error(result.error || 'Xəta baş verdi');
