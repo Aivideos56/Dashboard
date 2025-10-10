@@ -55,7 +55,8 @@ export default function HallTableModal({ isOpen, onClose, hallId, hallName, tabl
         capacity: parseInt(data.capacity),
         status: data.status,
         shape: data.shape,
-        restaurant_id: restaurant.id
+        restaurant_id: restaurant.id,
+        table_number: parseInt(data.number),
       };
 
       let result;
