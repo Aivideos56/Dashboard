@@ -16,7 +16,7 @@ import StatisticsPage from './pages/StatisticsPage';
 import SettingsPage from './pages/SettingsPage';
 import HallsPage from './pages/HallsPage';
 import SemiFinishedPage './pages/SemiFinishedPage'
-
+ 
 function App() {
 	return (
 		<Provider store={store}>
