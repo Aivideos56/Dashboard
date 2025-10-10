@@ -15,6 +15,7 @@ import OrdersPage from './pages/OrdersPage';
 import StatisticsPage from './pages/StatisticsPage';
 import SettingsPage from './pages/SettingsPage';
 import HallsPage from './pages/HallsPage';
+import SemiFinishedPage './pages/SemiFinishedPage'
 
 function App() {
 	return (
@@ -74,6 +75,15 @@ function App() {
 						element={
 							<ProtectedRoute>
 								<MenuPage />
+							</ProtectedRoute>
+						}
+					/>
+
+          <Route
+						path='/semifinished'
+						element={
+							<ProtectedRoute>
+								<SemiFinishedPage />
 							</ProtectedRoute>
 						}
 					/>
