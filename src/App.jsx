@@ -17,6 +17,7 @@ import SettingsPage from './pages/SettingsPage';
 import HallsPage from './pages/HallsPage';
 import HallTablesPage from './pages/HallTablesPage';
 import SemiFinishedPage from './pages/SemiFinishedPage';
+import DepartmentPage from './pages/DepartmentPage'
 
 function App() {
 	return (
@@ -98,6 +99,15 @@ function App() {
 						}
 					/>
 
+					<Route
+						path='/departments'
+						element={
+							<ProtectedRoute>
+								<DepartmentPage />
+							</ProtectedRoute>
+						}
+					/>
+          
 					<Route
 						path='/orders'
 						element={
