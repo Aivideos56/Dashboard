@@ -1,14 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { X } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { supabase } from '../../lib/supabase';
 
 export default function HallTableModal({ isOpen, onClose, hallId, hallName, table = null, existingTables = [] }) {
   const [loading, setLoading] = useState(false);
-  const { restaurant } = useSelector((state) => state.auth);
-  
+
   const {
     register,
     handleSubmit,
@@ -55,7 +53,7 @@ export default function HallTableModal({ isOpen, onClose, hallId, hallName, tabl
         capacity: parseInt(data.capacity),
         status: data.status,
         shape: data.shape,
-        restaurantİd: restaurant.id
+        restaurant_id: restaurant.id
       };
 
       let result;
