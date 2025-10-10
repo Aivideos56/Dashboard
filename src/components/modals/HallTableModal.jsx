@@ -6,7 +6,7 @@ import { supabase } from '../../lib/supabase';
 
 export default function HallTableModal({ isOpen, onClose, hallId, hallName, table = null, existingTables = [] }) {
   const [loading, setLoading] = useState(false);
-
+const { restaurant } = useSelector((state) => state.auth);
   const {
     register,
     handleSubmit,
@@ -53,7 +53,7 @@ export default function HallTableModal({ isOpen, onClose, hallId, hallName, tabl
         capacity: parseInt(data.capacity),
         status: data.status,
         shape: data.shape,
-        restaurant_id: restaurant.id
+        restaurantİd: restaurant.id
       };
 
       let result;
