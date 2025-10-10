@@ -15,7 +15,8 @@ import OrdersPage from './pages/OrdersPage';
 import StatisticsPage from './pages/StatisticsPage';
 import SettingsPage from './pages/SettingsPage';
 import HallsPage from './pages/HallsPage';
-import SemiFinishedPage from './pages/SemiFinishedPage'
+import HallTablesPage from './pages/HallTablesPage';
+import SemiFinishedPage from './pages/SemiFinishedPage';
 
 function App() {
 	return (
@@ -66,6 +67,15 @@ function App() {
 						element={
 							<ProtectedRoute>
 								<HallsPage />
+							</ProtectedRoute>
+						}
+					/>
+
+					<Route
+						path='/halls/:hallId/tables'
+						element={
+							<ProtectedRoute>
+								<HallTablesPage />
 							</ProtectedRoute>
 						}
 					/>

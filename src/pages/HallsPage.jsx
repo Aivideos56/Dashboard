@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Plus, CreditCard as Edit, Trash2, LayoutGrid } from 'lucide-react';
 import Sidebar from '../components/layout/Sidebar';
 import Header from '../components/layout/Header';
@@ -7,14 +8,13 @@ import { supabase } from '../lib/supabase';
 import { getHalls, addHall, updateHall, deleteHall, getHallTableCount } from '../utils/storageExtensions';
 import toast from 'react-hot-toast';
 import HallModal from '../components/modals/HallModal';
-import TableModal from '../components/modals/TableModal';
 
 export default function HallsPage() {
+	const navigate = useNavigate();
 	const { restaurant } = useSelector((state) => state.auth);
 	const [halls, setHalls] = useState([]);
 	const [hallCounts, setHallCounts] = useState({});
 	const [showModal, setShowModal] = useState(false);
-	const [showTablesModal, setShowTablesModal] = useState(false);
 	const [selectedHall, setSelectedHall] = useState(null);
 
 	useEffect(() => {
@@ -95,13 +95,11 @@ export default function HallsPage() {
 	};
 
 	const handleShowTables = (hall) => {
-		setSelectedHall(hall);
-		setShowTablesModal(true);
+		navigate(`/halls/${hall.id}/tables`);
 	};
 
 	const handleCloseModals = () => {
 		setShowModal(false);
-		setShowTablesModal(false);
 		setSelectedHall(null);
 	};
 
@@ -208,14 +206,6 @@ export default function HallsPage() {
 				onSuccess={selectedHall ? handleUpdateHall : handleAddHall}
 				restaurantId={restaurant?.id}
 				hall={selectedHall}
-			/>
-
-			<TableModal
-				isOpen={showTablesModal}
-				onClose={handleCloseModals}
-				hall={selectedHall}
-				restaurantId={restaurant?.id}
-				onTableChange={() => loadHallCount(selectedHall?.id)}
 			/>
 		</div>
 	);
