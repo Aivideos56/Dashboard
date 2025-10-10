@@ -17,7 +17,7 @@ import SettingsPage from './pages/SettingsPage';
 import HallsPage from './pages/HallsPage';
 import HallTablesPage from './pages/HallTablesPage';
 import SemiFinishedPage from './pages/SemiFinishedPage';
-import DepartmentPage from './pages/DepartmentPage'
+import DepartmentPage from './pages/DepartmentsPage'
 
 function App() {
 	return (
