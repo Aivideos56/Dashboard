@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { X, Plus, Trash2, Edit } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Sidebar from '../components/layout/Sidebar';
 import { supabase } from '../lib/supabase';
 
 function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
