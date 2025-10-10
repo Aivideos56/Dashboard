@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { X, Plus, Trash2, Edit } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '../lib/supabase';
 
 function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
   const [loading, setLoading] = useState(false);
