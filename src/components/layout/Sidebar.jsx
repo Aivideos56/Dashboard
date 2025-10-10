@@ -15,7 +15,7 @@ export default function Sidebar() {
 		{ path: '/orders', name: 'Sifarişlər', icon: ShoppingCart },
 		{ path: '/statistics', name: 'Statistika', icon: TrendingUp },
 		{ path: '/settings', name: 'Parametrlər', icon: Settings },
-		{ path: '/departments', name: 'Şöbələr', icon: Settings },
+		{ path: '/departments', name: 'Şöbələr', icon: Settings }, s
 	];
 
 	return (
