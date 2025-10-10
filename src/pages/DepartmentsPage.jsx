@@ -150,6 +150,8 @@ export default function DepartmentsPage() {
   };
 
   return (
+    <div>
+      <Sidebar />
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Departamentlər</h1>
@@ -200,6 +202,7 @@ export default function DepartmentsPage() {
       </div>
 
       {modalOpen && <DepartmentModal isOpen={modalOpen} onClose={() => setModalOpen(false)} department={selectedDept} refresh={fetchDepartments} />}
+    </div>
     </div>
   );
 }
