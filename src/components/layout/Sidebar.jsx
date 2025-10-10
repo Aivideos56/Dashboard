@@ -11,6 +11,7 @@ export default function Sidebar() {
 		{ path: '/branches', name: 'Filiallar', icon: Building2 },
 		{ path: '/halls', name: 'Masa idarəetməsi', icon: UtensilsCrossed },
 		{ path: '/menu', name: 'Menyu', icon: Package },
+		{ path: '/semifinished', name: 'SemiFinished', icon: Package },
 		{ path: '/orders', name: 'Sifarişlər', icon: ShoppingCart },
 		{ path: '/statistics', name: 'Statistika', icon: TrendingUp },
 		{ path: '/settings', name: 'Parametrlər', icon: Settings },
