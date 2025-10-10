@@ -23,7 +23,7 @@ export default function HallTablesPage() {
       loadHallAndTables();
     }
   }, [restaurant, hallId]);
-
+  console.log(restaurant)
   useEffect(() => {
     if (!restaurant || !hallId) return;
 
