@@ -15,8 +15,8 @@ import OrdersPage from './pages/OrdersPage';
 import StatisticsPage from './pages/StatisticsPage';
 import SettingsPage from './pages/SettingsPage';
 import HallsPage from './pages/HallsPage';
-import SemiFinishedPage './pages/SemiFinishedPage'
- 
+import SemiFinishedPage from './pages/SemiFinishedPage'
+
 function App() {
 	return (
 		<Provider store={store}>
