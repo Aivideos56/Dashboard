@@ -157,7 +157,7 @@ export default function DepartmentsPage() {
       <Header
 					title='Şöbələr'
 				/>
-      <div>
+      <div className="p-6">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Departamentlər</h1>
         <button
