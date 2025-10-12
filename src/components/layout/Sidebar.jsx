@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, Package, ShoppingCart, TrendingUp, Settings, Building2, UtensilsCrossed } from 'lucide-react';
+import { LayoutDashboard, Users, Package, ShoppingCart, TrendingUp, Settings, Building2, UtensilsCrossed, Usb } from 'lucide-react';
 import { useSelector } from 'react-redux';
 
 export default function Sidebar() {
@@ -9,7 +9,7 @@ export default function Sidebar() {
 		{ path: '/dashboard', name: 'Dashboard', icon: LayoutDashboard },
 		{ path: '/users', name: 'İstifadəçilər', icon: Users },
 		{ path: '/branches', name: 'Filiallar', icon: Building2 },
-    { path: '/departments', name: 'Şöbələr', icon: Settings },
+    { path: '/departments', name: 'Şöbələr', icon: Usb  },
 		{ path: '/halls', name: 'Masa idarəetməsi', icon: UtensilsCrossed },
 		{ path: '/menu', name: 'Menyu', icon: Package },
 		{ path: '/semifinished', name: 'Yarımfabrikat', icon: Package },
