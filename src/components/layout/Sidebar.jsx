@@ -9,13 +9,13 @@ export default function Sidebar() {
 		{ path: '/dashboard', name: 'Dashboard', icon: LayoutDashboard },
 		{ path: '/users', name: 'İstifadəçilər', icon: Users },
 		{ path: '/branches', name: 'Filiallar', icon: Building2 },
+    { path: '/departments', name: 'Şöbələr', icon: Settings },
 		{ path: '/halls', name: 'Masa idarəetməsi', icon: UtensilsCrossed },
 		{ path: '/menu', name: 'Menyu', icon: Package },
 		{ path: '/semifinished', name: 'Yarımfabrikat', icon: Package },
 		{ path: '/orders', name: 'Sifarişlər', icon: ShoppingCart },
 		{ path: '/statistics', name: 'Statistika', icon: TrendingUp },
 		{ path: '/settings', name: 'Parametrlər', icon: Settings },
-		{ path: '/departments', name: 'Şöbələr', icon: Settings },
 	];
 
 	return (
