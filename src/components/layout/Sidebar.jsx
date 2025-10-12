@@ -9,7 +9,7 @@ export default function Sidebar() {
 		{ path: '/dashboard', name: 'Dashboard', icon: LayoutDashboard },
 		{ path: '/users', name: 'İstifadəçilər', icon: Users },
 		{ path: '/branches', name: 'Filiallar', icon: Building2 },
-    { path: '/departments', name: 'Şöbələr', icon: Usb  },
+    { path: '/departments', name: 'Şöbələr', icon: Usb },
 		{ path: '/halls', name: 'Masa idarəetməsi', icon: UtensilsCrossed },
 		{ path: '/menu', name: 'Menyu', icon: Package },
 		{ path: '/semifinished', name: 'Yarımfabrikat', icon: Package },
