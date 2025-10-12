@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, Package, ShoppingCart, TrendingUp, Settings, Building2, UtensilsCrossed, Usb, ChefHat  } from 'lucide-react';
+import { LayoutDashboard, Users, Package, ShoppingCart, TrendingUp, Settings, Building2, UtensilsCrossed, Usb, ChefHat } from 'lucide-react';
 import { useSelector } from 'react-redux';
 
 export default function Sidebar() {
