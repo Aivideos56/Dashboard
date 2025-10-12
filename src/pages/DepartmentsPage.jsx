@@ -157,6 +157,7 @@ export default function DepartmentsPage() {
       <Header
 					title='Şöbələr'
 				/>
+      <div>
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Departamentlər</h1>
         <button
@@ -203,6 +204,7 @@ export default function DepartmentsPage() {
             </tbody>
           </table>
         </div>
+      </div>
       </div>
 
       {modalOpen && <DepartmentModal isOpen={modalOpen} onClose={() => setModalOpen(false)} department={selectedDept} refresh={fetchDepartments} />}
