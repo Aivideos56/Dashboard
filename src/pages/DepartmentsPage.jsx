@@ -153,7 +153,7 @@ export default function DepartmentsPage() {
   return (
     <div>
       <Sidebar />
-    <div className="flex-1 ml-64 p-6">
+    <div className="flex-1 ml-64 ">
       <Header
 					title='Şöbələr'
 				/>
