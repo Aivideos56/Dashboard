@@ -154,14 +154,11 @@ export default function DepartmentsPage() {
     <div>
       <Sidebar />
     <div className="p-6">
-      <Header
-					title='Filiallar'
-					stats={[
-						{ label: 'Ümumi', value: branches.length },
-						{ label: 'Aktiv', value: activeBranches },
-					]}
-				/>
       <div className="flex justify-between items-center mb-4">
+        <Header
+					title='Şöbələr'
+					
+				/>
         <h1 className="text-2xl font-bold">Departamentlər</h1>
         <button
           onClick={() => { setSelectedDept(null); setModalOpen(true); }}
