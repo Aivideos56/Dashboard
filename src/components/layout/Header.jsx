@@ -37,7 +37,7 @@ export default function Header({ title, stats = [] }) {
 						<div className='flex items-center space-x-3'>
 							<Building2 className='w-8 h-8 text-blue-600' />
 							<div>
-								<h1 className='text-2xl font-bold text-gray-900'>{title}</h1>
+								<h1 className='text-2xl font-bold text-gray-900'>{title}Z</h1>
 								{isAdmin && <p className='text-sm text-gray-500'>Sistem İdarəçisi</p>}
 							</div>
 						</div>
