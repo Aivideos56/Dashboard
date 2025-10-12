@@ -153,11 +153,11 @@ export default function DepartmentsPage() {
   return (
     <div>
       <Sidebar />
-    <div className="flex-1 ml-64">
+    <div className="flex-1 ml-64 p-6">
       <Header
 					title='Şöbələr'
 				/>
-      <div className="flex justify-between items-center mb-4 ">
+      <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Departamentlər</h1>
         <button
           onClick={() => { setSelectedDept(null); setModalOpen(true); }}
