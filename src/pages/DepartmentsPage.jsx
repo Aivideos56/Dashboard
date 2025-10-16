@@ -26,6 +26,17 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
+      const restaurant = storageUtils.getRestaurantId('restaurant'); // və ya storageUtils.getRestaurantId()
+
+      if (!restaurant?.id) {
+          throw new Error('Restoran məlumatı tapılmadı');
+        }
+      
+      const payload = {
+          ...data,
+          restaurant_id: restaurant.id, // bunu əlavə edirik
+        };
+
       if (department) {
         const { data: updated, error } = await supabase
           .from('departments')
