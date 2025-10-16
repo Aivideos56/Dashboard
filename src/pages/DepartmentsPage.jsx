@@ -11,16 +11,12 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
   const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm({
     defaultValues: {
       name: '',
-      code: '',
-      description: '',
     },
   });
 
   useEffect(() => {
     if (department) {
       setValue('name', department.name);
-      setValue('code', department.code);
-      setValue('description', department.description);
     } else {
       reset();
     }
