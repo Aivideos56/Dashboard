@@ -6,7 +6,7 @@ import Sidebar from '../components/layout/Sidebar';
 import Header from '../components/layout/Header';
 import { supabase } from '../lib/supabase';
 
-function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
+function DepartmentModal({ isOpen, onClose, department = null, refresh, restaurant_id }) {
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm({
     defaultValues: {
