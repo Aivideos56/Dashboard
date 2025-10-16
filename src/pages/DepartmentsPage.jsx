@@ -182,7 +182,7 @@ export default function DepartmentsPage() {
       </div>
       </div>
 
-      {modalOpen && <DepartmentModal isOpen={modalOpen} onClose={() => setModalOpen(false)} department={selectedDept} refresh={fetchDepartments} />}
+      {modalOpen && <DepartmentModal isOpen={modalOpen} onClose={() => setModalOpen(false)} department={selectedDept} refresh={fetchDepartments} restaurantId={getRestaurantId} />}
     </div>
     </div>
   );
