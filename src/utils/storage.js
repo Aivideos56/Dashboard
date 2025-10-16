@@ -8,7 +8,7 @@ const STORAGE_KEYS = {
 };
 
 export const setUser = (userData, type = 'restaurant') => {
-  console.log(userData)
+  console.log(userData, 'type: ', type)
 	try {
 		if (type === 'admin') {
 			localStorage.setItem('admin_user', JSON.stringify(userData));
