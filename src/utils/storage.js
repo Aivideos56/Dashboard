@@ -15,7 +15,7 @@ export const setUser = (userData, type = 'restaurant') => {
 		}
 
 		if (userData.restaurant_id) {
-			localStorage.setItem('restaurant_id', userData.restaurant_id);
+			localStorage.setItem('restaurant_id', JSON.stringify(userData.restaurant_id));
 		}
 
 		if (userData.branch_id) {
