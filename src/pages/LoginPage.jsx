@@ -28,6 +28,7 @@ export default function LoginPage() {
 
 				if (adminUser) {
 					dispatch(loginAdmin(adminUser));
+          storageUtils.setUser(adminUser, 'admin');
 					toast.success('Xoş gəldiniz, Admin!');
 					navigate('/admin');
 				} else {
