@@ -39,6 +39,7 @@ export default function LoginPage() {
 
 				if (restaurant) {
 					dispatch(loginRestaurant(restaurant));
+          storageUtils.setUser(restaurant, 'restaurant');
 					toast.success(`Xoş gəldiniz, ${restaurant.name}!`);
 					navigate('/dashboard');
 				} else {
