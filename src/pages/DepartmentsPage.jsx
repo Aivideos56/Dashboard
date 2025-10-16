@@ -161,8 +161,6 @@ export default function DepartmentsPage() {
               {departments.map((dept) => (
                 <tr key={dept.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">{dept.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{dept.code}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{dept.description || '-'}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-right space-x-2">
                     <button onClick={() => { setSelectedDept(dept); setModalOpen(true); }} className="text-blue-600 hover:text-blue-700 inline-flex items-center">
                       <Edit className="w-4 h-4" />
