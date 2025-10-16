@@ -26,7 +26,7 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const restaurant = storageUtils.getRestaurantId('restaurant'); // və ya storageUtils.getRestaurantId()
+      const restaurant = storageUtils.getRestaurantId('restaurant_id'); // və ya storageUtils.getRestaurantId()
 
       if (!restaurant?.id) {
           throw new Error('Restoran məlumatı tapılmadı');
