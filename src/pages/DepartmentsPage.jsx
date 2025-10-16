@@ -29,13 +29,13 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
       const restaurant = await storageUtils.getRestaurantId('restaurant_id');
       console.log(restaurant)
 
-      if (!restaurant?.id) {
+      if (!restaurant) {
           throw new Error('Restoran məlumatı tapılmadı');
         }
       
       const payload = {
           ...data,
-          restaurant_id: restaurant.id, // bunu əlavə edirik
+          restaurant_id: restaurantW, // bunu əlavə edirik
         };
 
       if (department) {
