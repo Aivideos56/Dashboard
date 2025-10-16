@@ -14,7 +14,7 @@ export const setUser = (userData, type = 'restaurant') => {
 			localStorage.setItem('admin_user', JSON.stringify(userData));
 		}
 
-		if (userData.restaurant_id) {
+		if ( type === 'restaurant' ) {
 			localStorage.setItem('restaurant_id', userData.restaurant_id) ;
 		}
 
