@@ -34,8 +34,8 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
         }
       
       const payload = {
-          ...data,
-          restaurant_id: restaurantW, // bunu əlavə edirik
+          ...data, 
+          restaurant_id: restaurant, // bunu əlavə edirik
         };
 
       if (department) {
