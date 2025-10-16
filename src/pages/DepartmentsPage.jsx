@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import Sidebar from '../components/layout/Sidebar';
 import Header from '../components/layout/Header';
 import { supabase } from '../lib/supabase';
-import { getRestaurantId } from '../lib/storage'
+import { getRestaurantId } from '../lib/storageUtils'
 
 function DepartmentModal({ isOpen, onClose, department = null, refresh, restaurantId }) {
   const [loading, setLoading] = useState(false);
