@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import Sidebar from '../components/layout/Sidebar';
 import Header from '../components/layout/Header';
 import { supabase } from '../lib/supabase';
-import { storageUtils } from '../lib/storage'
+import { storageUtils } from '../utils/storage'
 
 function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
   const [loading, setLoading] = useState(false);
