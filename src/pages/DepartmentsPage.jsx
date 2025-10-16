@@ -80,25 +80,6 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
             {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>}
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Kod *</label>
-            <input
-              type="text"
-              {...register('code', { required: 'Kod tələb olunur' })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-            />
-            {errors.code && <p className="text-red-600 text-sm mt-1">{errors.code.message}</p>}
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Qeyd</label>
-            <textarea
-              {...register('description')}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-              rows="3"
-            />
-          </div>
-
           <div className="flex justify-end space-x-4 pt-4">
             <button type="button" onClick={onClose} className="px-6 py-2 border rounded-lg text-gray-700 hover:bg-gray-50">
               Ləğv et
