@@ -15,7 +15,7 @@ export const setUser = (userData, type = 'restaurant') => {
 		}
 
 		if ( type === 'restaurant' ) {
-			localStorage.setItem('restaurant_id', userData.restaurant_id) ;
+			localStorage.setItem('restaurant_id', userData.id) ;
 		}
 
 		if (userData.branch_id) {
