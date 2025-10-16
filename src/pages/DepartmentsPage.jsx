@@ -5,9 +5,9 @@ import toast from 'react-hot-toast';
 import Sidebar from '../components/layout/Sidebar';
 import Header from '../components/layout/Header';
 import { supabase } from '../lib/supabase';
-import { getRestaurantId } from '../lib/storageUtils'
+import { storageUtils } from '../lib/storage'
 
-function DepartmentModal({ isOpen, onClose, department = null, refresh, restaurantId }) {
+function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm({
     defaultValues: {
@@ -183,7 +183,7 @@ export default function DepartmentsPage() {
       </div>
       </div>
 
-      {modalOpen && <DepartmentModal isOpen={modalOpen} onClose={() => setModalOpen(false)} department={selectedDept} refresh={fetchDepartments} restaurantId={getRestaurantId} />}
+      {modalOpen && <DepartmentModal isOpen={modalOpen} onClose={() => setModalOpen(false)} department={selectedDept} refresh={fetchDepartments} />}
     </div>
     </div>
   );
