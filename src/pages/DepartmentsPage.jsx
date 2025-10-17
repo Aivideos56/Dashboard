@@ -28,7 +28,7 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
     setLoading(true);
     try {
       const restaurantId = await storageUtils.getRestaurantId('restaurant_id');
-      console.log(restaurantId) 
+      console.log(restaurantId)
 
       if (!restaurantId) {
           throw new Error('Restoran məlumatı tapılmadı');
@@ -38,7 +38,9 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
           ...data,
           restaurant_id: restaurantId, // bunu əlavə edirik
         };
-  console.log('payload: ', payload )
+      
+  console.log('payload: ', payload)
+      
       if (department) {
         const { data: updated, error } = await supabase
           .from('departments')
@@ -51,7 +53,7 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
       } else {
         const { data: created, error } = await supabase
           .from('departments')
-          .insert([data])
+          .insert([payload])
           .select()
           .single();
         if (error) throw error;
