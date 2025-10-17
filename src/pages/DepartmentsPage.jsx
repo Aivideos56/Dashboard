@@ -15,7 +15,7 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
       restaurant_id: '',
     },
   });
-  const restaurantId = await storageUtils.getRestaurantId('restaurant_id');
+  const restaurantId = storageUtils.getRestaurantId('restaurant_id');
       console.log(restaurantId)
 
   useEffect(() => {
