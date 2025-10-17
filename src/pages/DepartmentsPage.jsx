@@ -37,7 +37,7 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
           ...data,
           restaurant_id: restaurantId, // bunu əlavə edirik
         };
-
+  console.log('payload: ', payload )
       if (department) {
         const { data: updated, error } = await supabase
           .from('departments')
