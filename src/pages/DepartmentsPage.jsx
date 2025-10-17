@@ -12,6 +12,7 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
   const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm({
     defaultValues: {
       name: '',
+      restaurant_id: '',
     },
   });
 
