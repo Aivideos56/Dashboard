@@ -14,13 +14,11 @@ export const setUser = (userData, type = 'restaurant') => {
 			localStorage.setItem('admin_user', JSON.stringify(userData));
 		}
 
-		if ( type === 'restaurant' ) {
+		if (type === 'restaurant') {
 			localStorage.setItem('restaurant_id', userData.id) ;
-		}
-
-		if (userData.branch_id) {
 			localStorage.setItem('branch_id', userData.branch_id);
 		}
+    
 	} catch (error) {
 		console.error('setUser error:', error);
 	}
