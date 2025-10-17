@@ -9,16 +9,30 @@ import { storageUtils } from '../utils/storage'
 
 function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
   const [loading, setLoading] = useState(false);
+  const [branches, setBranches] = useState([]);
   const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm({
     defaultValues: {
       name: '',
-      restaurant_id: '',
+      branch_id: '', // burada branch_id default
     },
   });
 
+  // 💡 Branchları yükləyirik
+  useEffect(() => {
+    const loadBranches = async () => {
+      const restaurantId = storageUtils.getRestaurantId(); // localStorage-dən
+      if (!restaurantId) return;
+      const data = await storageUtils.getBranches(restaurantId);
+      setBranches(data || []);
+    };
+    loadBranches();
+  }, []);
+
+  // Department redaktəsi zamanı setValue
   useEffect(() => {
     if (department) {
       setValue('name', department.name);
+      setValue('branch_id', department.branch_id || '');
     } else {
       reset();
     }
@@ -27,24 +41,19 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const restaurantId = await storageUtils.getRestaurantId('restaurant_id');
-      console.log(restaurantId)
+      const restaurantId = storageUtils.getRestaurantId();
+      if (!restaurantId) throw new Error('Restoran məlumatı tapılmadı');
 
-      if (!restaurantId) {
-          throw new Error('Restoran məlumatı tapılmadı');
-        }
-      
       const payload = {
-          ...data,
-          restaurant_id: restaurantId, // bunu əlavə edirik
-        };
-      
-  console.log('payload: ', payload)
-      
+        name: data.name,
+        restaurant_id: restaurantId,
+        branch_id: data.branch_id || null, // seçilmiş branch
+      };
+
       if (department) {
         const { data: updated, error } = await supabase
           .from('departments')
-          .update(data)
+          .update(payload)
           .eq('id', department.id)
           .select()
           .single();
@@ -59,6 +68,7 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
         if (error) throw error;
         toast.success('Departament əlavə edildi');
       }
+
       refresh();
       onClose();
     } catch (error) {
@@ -92,6 +102,21 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
             {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>}
           </div>
 
+          {/* 💡 Branch seçimi */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Filial *</label>
+            <select
+              {...register('branch_id', { required: 'Filial seçilməlidir' })}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Seçin</option>
+              {branches.map((b) => (
+                <option key={b.id} value={b.id}>{b.name}</option>
+              ))}
+            </select>
+            {errors.branch_id && <p className="text-red-600 text-sm mt-1">{errors.branch_id.message}</p>}
+          </div>
+
           <div className="flex justify-end space-x-4 pt-4">
             <button type="button" onClick={onClose} className="px-6 py-2 border rounded-lg text-gray-700 hover:bg-gray-50">
               Ləğv et
@@ -105,6 +130,7 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
     </div>
   );
 }
+
 
 export default function DepartmentsPage() {
   const [departments, setDepartments] = useState([]);
