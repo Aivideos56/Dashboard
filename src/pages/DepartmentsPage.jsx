@@ -15,6 +15,8 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
       restaurant_id: '',
     },
   });
+  const restaurantId = await storageUtils.getRestaurantId('restaurant_id');
+      console.log(restaurantId)
 
   useEffect(() => {
     if (department) {
@@ -27,8 +29,6 @@ function DepartmentModal({ isOpen, onClose, department = null, refresh }) {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const restaurantId = await storageUtils.getRestaurantId('restaurant_id');
-      console.log(restaurantId)
 
       if (!restaurantId) {
           throw new Error('Restoran məlumatı tapılmadı');
