@@ -44,7 +44,7 @@ export default function MenuPage() {
 	}, [restaurant]);
 
 	const loadData = async () => {
-		const [categoriesData, productsData] = await Promise.all([storageUtils.getCategories(restaurant.id), storageUtils.getProducts(restaurant.id)]);
+		const [categoriesData, productsData] = await Promise.all([storageUtils.getCategories(restaurant.id), storageUtils.getProducts(restaurant.id), storageUtils.getDepartments(restaurant.id)]);
 
 		dispatch(setCategories(categoriesData));
 		dispatch(setProducts(productsData));
