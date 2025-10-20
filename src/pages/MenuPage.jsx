@@ -489,7 +489,7 @@ export default function MenuPage() {
 				categories={categories}
 				product={selectedItem}
 				allProducts={products}
-        departaments={departaments}
+        
 			/>
 		</div>
 	);
