@@ -38,7 +38,6 @@ export default function MenuPage() {
 	const [filterSubCategory, setFilterSubCategory] = useState('');
   const [departments, setDepartments] = useState([]);
 
-
 	useEffect(() => {
 		if (restaurant) {
 			loadData();
@@ -50,6 +49,7 @@ export default function MenuPage() {
 
 		dispatch(setCategories(categoriesData));
 		dispatch(setProducts(productsData));
+    setDepartments(departmentsData);
 
 		const allSubCategories = [];
 		for (const cat of categoriesData) {
