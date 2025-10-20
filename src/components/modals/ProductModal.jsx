@@ -312,7 +312,7 @@ export default function ProductModal({
 							</button>
 						</div>
 					</div>
-
+s
 					{/* Modifikasiyası var */}
 					<div className='pt-2 border-t border-gray-200'>
 						<label className='flex items-center space-x-2'>
