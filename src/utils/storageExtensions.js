@@ -49,59 +49,6 @@ export const deleteHall = async (hallId) => {
 	}
 };
 
-// Department operations
-export const getDepartments = async (restaurantId) => {
-	try {
-		const { data, error } = await supabase
-			.from('departments')
-			.select('*')
-			.eq('restaurant_id', restaurantId)
-			.order('created_at', { ascending: false });
-
-		if (error) throw error;
-		return data || [];
-	} catch (error) {
-		console.error('Get departments error:', error);
-		return [];
-	}
-};
-
-export const addDepartment = async (departmentData) => {
-	try {
-		const { data, error } = await supabase.from('departments').insert([departmentData]).select().single();
-
-		if (error) throw error;
-		return { success: true, data };
-	} catch (error) {
-		console.error('Add department error:', error);
-		return { success: false, error: error.message };
-	}
-};
-
-export const updateDepartment = async (departmentId, departmentData) => {
-	try {
-		const { data, error } = await supabase.from('departments').update(departmentData).eq('id', departmentId).select().single();
-
-		if (error) throw error;
-		return { success: true, data };
-	} catch (error) {
-		console.error('Update department error:', error);
-		return { success: false, error: error.message };
-	}
-};
-
-export const deleteDepartment = async (departmentId) => {
-	try {
-		const { error } = await supabase.from('departments').delete().eq('id', departmentId);
-
-		if (error) throw error;
-		return { success: true };
-	} catch (error) {
-		console.error('Delete department error:', error);
-		return { success: false, error: error.message };
-	}
-};
-
 // Ingredient operations
 export const getIngredients = async (restaurantId) => {
 	try {
