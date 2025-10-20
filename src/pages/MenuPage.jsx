@@ -491,7 +491,7 @@ export default function MenuPage() {
 				categories={categories}
 				product={selectedItem}
 				allProducts={products}
-        departments={departments}
+        departments={departmentsData}
 			/>
 		</div>
 	);
