@@ -6,7 +6,7 @@ import { storageUtils } from '../../utils/storage';
 import { validateProduct, validatePrice } from '../../utils/validation';
 import { uploadImage, generateBarcode } from '../../utils/helpers';
 
-export default function ProductModal({ isOpen, onClose, onSuccess, restaurantId, categories, product = null, allProducts = [] }) {
+export default function ProductModal({ isOpen, onClose, onSuccess, restaurantId, categories, product = null, allProducts = [], departments }) {
 	const [loading, setLoading] = useState(false);
 	const [imagePreview, setImagePreview] = useState('');
 	const [subCategories, setSubCategories] = useState([]);
