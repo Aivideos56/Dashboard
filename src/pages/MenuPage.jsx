@@ -36,6 +36,8 @@ export default function MenuPage() {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [filterCategory, setFilterCategory] = useState('');
 	const [filterSubCategory, setFilterSubCategory] = useState('');
+  const [departments, setDepartments] = useState([]);
+
 
 	useEffect(() => {
 		if (restaurant) {
@@ -489,7 +491,7 @@ export default function MenuPage() {
 				categories={categories}
 				product={selectedItem}
 				allProducts={products}
-        departments=[departmentsData]
+        departments=[departments]
 			/>
 		</div>
 	);
