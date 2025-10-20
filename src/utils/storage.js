@@ -750,4 +750,8 @@ export const storageUtils = {
 	getOrders,
 	addOrder,
 	findUser,
+  getDepartments,
+  addDepartment,
+  updateDepartment,
+  deleteDepartment
 };
