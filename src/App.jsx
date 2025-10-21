@@ -19,6 +19,7 @@ import HallTablesPage from './pages/HallTablesPage';
 import SemiFinishedPage from './pages/SemiFinishedPage';
 import DepartmentPage from './pages/DepartmentsPage'
 import IngredientsPage from './pages/IngredientsPage'
+import ModifiersPage from './pages/ModifiersPage'
 
 function App() {
 	return (
