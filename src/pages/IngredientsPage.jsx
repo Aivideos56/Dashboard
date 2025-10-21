@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Search, Edit2, Trash2, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { getIngredients, addIngredient, updateIngredient, deleteIngredient } from '../utils/storage';
-import IngredientModal from '../components/IngredientModal';
+import IngredientModal from '../components/modals/IngredientModal';
 import Sidebar from '../components/layout/Sidebar';
 
 export default function IngredientsPage({ restaurantId }) {
