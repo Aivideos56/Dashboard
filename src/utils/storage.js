@@ -859,6 +859,6 @@ export const storageUtils = {
   deleteIngredient,
   getModifiers,
   addModifier,
-  updateModifier,d
-  eleteModifier
+  updateModifier,
+  deleteModifier
 };
