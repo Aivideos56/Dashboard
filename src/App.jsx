@@ -98,6 +98,15 @@ function App() {
 							</ProtectedRoute>
 						}
 					/>
+          
+          <Route
+						path='/ingredients'
+						element={
+							<ProtectedRoute>
+								<IngredientsPage />
+							</ProtectedRoute>
+						}
+					/>
 
 					<Route
 						path='/departments'
