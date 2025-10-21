@@ -108,6 +108,15 @@ function App() {
 							</ProtectedRoute>
 						}
 					/>
+          
+          <Route
+						path='/modifiers'
+						element={
+							<ProtectedRoute>
+								<ModifiersPage />
+							</ProtectedRoute>
+						}
+					/>
 
 					<Route
 						path='/departments'
