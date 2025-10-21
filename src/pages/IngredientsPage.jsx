@@ -111,22 +111,7 @@ export default function IngredientsPage({ restaurantId }) {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Tərkiblər</h1>
           <p className="text-gray-600">Restoran tərkiblərini idarə edin</p>
-        </div>
-        <div className="flex-1 ml-64 ">
-      <Header
-					title='Şöbələr'
-				/>
-      <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Departamentlər</h1>
-        <button
-          onClick={() => { setSelectedDept(null); setModalOpen(true); }}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center space-x-1"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Yeni Departament</span>
-        </button>
-      </div>
+        </div> 
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
           <div className="flex items-center justify-between gap-4">
