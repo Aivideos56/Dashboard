@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Search, Edit2, Trash2, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { getIngredients, addIngredient, updateIngredient, deleteIngredient } from '../utils/supabase';
+import { getIngredients, addIngredient, updateIngredient, deleteIngredient } from '../utils/storage';
 import IngredientModal from '../components/IngredientModal';
 import Sidebar from '../components/layout/Sidebar';
 
