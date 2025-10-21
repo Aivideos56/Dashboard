@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { getIngredients, addIngredient, updateIngredient, deleteIngredient } from '../utils/storage';
 import IngredientModal from '../components/modals/IngredientModal';
 import Sidebar from '../components/layout/Sidebar';
+import Header from '../components/layout/Header';
 
 export default function IngredientsPage({ restaurantId }) {
   const [ingredients, setIngredients] = useState([]);
