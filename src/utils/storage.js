@@ -705,6 +705,105 @@ export const deleteDepartment = async (departmentId) => {
 	}
 };
 
+
+// Ingredient operations
+export const getIngredients = async (restaurantId) => {
+	try {
+		const { data, error } = await supabase.from('ingredients').select('*').eq('restaurant_id', restaurantId).order('name', { ascending: true });
+
+		if (error) throw error;
+		return data || [];
+	} catch (error) {
+		console.error('Get ingredients error:', error);
+		return [];
+	}
+};
+
+export const addIngredient = async (ingredientData) => {
+	try {
+		const { data, error } = await supabase.from('ingredients').insert([ingredientData]).select().single();
+
+		if (error) throw error;
+		return { success: true, data };
+	} catch (error) {
+		console.error('Add ingredient error:', error);
+		return { success: false, error: error.message };
+	}
+};
+
+export const updateIngredient = async (ingredientId, ingredientData) => {
+	try {
+		const { data, error } = await supabase.from('ingredients').update(ingredientData).eq('id', ingredientId).select().single();
+
+		if (error) throw error;
+		return { success: true, data };
+	} catch (error) {
+		console.error('Update ingredient error:', error);
+		return { success: false, error: error.message };
+	}
+};
+
+export const deleteIngredient = async (ingredientId) => {
+	try {
+		const { error } = await supabase.from('ingredients').delete().eq('id', ingredientId);
+
+		if (error) throw error;
+		return { success: true };
+	} catch (error) {
+		console.error('Delete ingredient error:', error);
+		return { success: false, error: error.message };
+	}
+};
+
+// Modifier operations
+export const getModifiers = async (restaurantId) => {
+	try {
+		const { data, error } = await supabase.from('modifiers').select('*').eq('restaurant_id', restaurantId).order('name', { ascending: true });
+
+		if (error) throw error;
+		return data || [];
+	} catch (error) {
+		console.error('Get modifiers error:', error);
+		return [];
+	}
+};
+
+export const addModifier = async (modifierData) => {
+	try {
+		const { data, error } = await supabase.from('modifiers').insert([modifierData]).select().single();
+
+		if (error) throw error;
+		return { success: true, data };
+	} catch (error) {
+		console.error('Add modifier error:', error);
+		return { success: false, error: error.message };
+	}
+};
+
+export const updateModifier = async (modifierId, modifierData) => {
+	try {
+		const { data, error } = await supabase.from('modifiers').update(modifierData).eq('id', modifierId).select().single();
+
+		if (error) throw error;
+		return { success: true, data };
+	} catch (error) {
+		console.error('Update modifier error:', error);
+		return { success: false, error: error.message };
+	}
+};
+
+export const deleteModifier = async (modifierId) => {
+	try {
+		const { error } = await supabase.from('modifiers').delete().eq('id', modifierId);
+
+		if (error) throw error;
+		return { success: true };
+	} catch (error) {
+		console.error('Delete modifier error:', error);
+		return { success: false, error: error.message };
+	}
+};
+
 export const storageUtils = {
 	setUser,
 	getUser,
