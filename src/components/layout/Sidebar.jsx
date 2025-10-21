@@ -14,6 +14,7 @@ export default function Sidebar() {
 		{ path: '/menu', name: 'Menyu', icon: Package },
 		{ path: '/semifinished', name: 'Yarımfabrikat', icon: ChefHat },
 		{ path: '/ingredients', name: 'İnqredientlər', icon: ChefHat },
+		{ path: '/modifiers', name: 'Modifikatorlar', icon: ChefHat },
 		{ path: '/orders', name: 'Sifarişlər', icon: ShoppingCart },
 		{ path: '/statistics', name: 'Statistika', icon: TrendingUp },
 		{ path: '/settings', name: 'Parametrlər', icon: Settings },
