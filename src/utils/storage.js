@@ -852,5 +852,13 @@ export const storageUtils = {
   getDepartments,
   addDepartment,
   updateDepartment,
-  deleteDepartment
+  deleteDepartment,
+  getIngredients,
+  addIngredient,
+  updateIngredient,
+  deleteIngredient,
+  getModifiers,
+  addModifier,
+  updateModifier,d
+  eleteModifier
 };
