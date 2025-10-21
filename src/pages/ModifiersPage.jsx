@@ -252,3 +252,14 @@ export default function ModifiersPage({ restaurantId }) {
       )}
     </div>
   );
+}
+                        <div className="text-sm font-medium text-gray-900">
+                          {modifier.name}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900 font-medium">
+                          {modifier.price} ₼
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
