@@ -13,6 +13,7 @@ export default function Sidebar() {
 		{ path: '/halls', name: 'Masa idarəetməsi', icon: UtensilsCrossed },
 		{ path: '/menu', name: 'Menyu', icon: Package },
 		{ path: '/semifinished', name: 'Yarımfabrikat', icon: ChefHat },
+		{ path: '/ingredients', name: 'İnqredientlər', icon: ChefHat },
 		{ path: '/orders', name: 'Sifarişlər', icon: ShoppingCart },
 		{ path: '/statistics', name: 'Statistika', icon: TrendingUp },
 		{ path: '/settings', name: 'Parametrlər', icon: Settings },
