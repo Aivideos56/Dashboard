@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Plus, Search, Edit2, Trash2, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { getModifiers, addModifier, updateModifier, deleteModifier } from '../services/supabase';
-import ModifierModal from '../components/ModifierModal';
+import { getModifiers, addModifier, updateModifier, deleteModifier } from '../utils/storage';
+import ModifierModal from '../components/modals/ModifierModal';
 import Sidebar from '../components/layout/Sidebar';
 
 export default function ModifiersPage({ restaurantId }) {
