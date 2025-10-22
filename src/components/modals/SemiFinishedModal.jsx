@@ -1,13 +1,17 @@
 import { useForm } from 'react-hook-form';
-import { X, Plus, Trash2 } from 'lucide-react';
+import { X, Trash2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { supabase } from '../../lib/supabase';
 
 export default function SemiFinishedModal({ isOpen, onClose, onSuccess, restaurantId, item = null }) {
   const [loading, setLoading] = useState(false);
   const [ingredients, setIngredients] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [showIngredientsPanel, setShowIngredientsPanel] = useState(false);
+  const [deleteMethod, setDeleteMethod] = useState('ingredient');
+  const [outputAmount, setOutputAmount] = useState(0);
 
   const {
     register,
@@ -19,37 +23,57 @@ export default function SemiFinishedModal({ isOpen, onClose, onSuccess, restaura
     defaultValues: {
       is_active: true,
       unit: 'kg',
-      quantity: 0,
-      min_quantity: 0,
     },
   });
 
   useEffect(() => {
-    loadIngredients();
+    if (restaurantId) {
+      loadIngredients();
+      loadCategories();
+    }
     if (item) {
       setValue('name', item.name);
       setValue('unit', item.unit);
-      setValue('quantity', item.quantity);
-      setValue('min_quantity', item.min_quantity);
+      setValue('category_id', item.category_id);
       setValue('is_active', item.is_active);
+      setOutputAmount(item.output_amount || 0);
       if (item.ingredients) {
         setSelectedIngredients(item.ingredients);
       }
     }
-  }, [item, setValue]);
+  }, [item, restaurantId, setValue]);
 
   const loadIngredients = async () => {
-    const mockIngredients = [
-      { id: 1, name: 'Un', unit: 'kg' },
-      { id: 2, name: 'Su', unit: 'l' },
-      { id: 3, name: 'Pomidor', unit: 'kg' },
-      { id: 4, name: 'Soğan', unit: 'kg' },
-      { id: 5, name: 'Pendir', unit: 'kg' },
-      { id: 6, name: 'Süd', unit: 'l' },
-      { id: 7, name: 'Yumurta', unit: 'pcs' },
-      { id: 8, name: 'Yağ', unit: 'l' },
-    ];
-    setIngredients(mockIngredients);
+    try {
+      const { data, error } = await supabase
+        .from('ingredients')
+        .select('*')
+        .eq('restaurant_id', restaurantId)
+        .eq('is_active', true)
+        .order('name');
+
+      if (error) throw error;
+      setIngredients(data || []);
+    } catch (error) {
+      console.error('Error loading ingredients:', error);
+      toast.error('Tərkibləri yükləmək mümkün olmadı');
+    }
+  };
+
+  const loadCategories = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('categories')
+        .select('id, name')
+        .eq('restaurant_id', restaurantId)
+        .eq('is_active', true)
+        .order('name');
+
+      if (error) throw error;
+      setCategories(data || []);
+    } catch (error) {
+      console.error('Error loading categories:', error);
+    }
   };
 
   const handleAddIngredient = () => {
@@ -70,6 +94,7 @@ export default function SemiFinishedModal({ isOpen, onClose, onSuccess, restaura
           ingredient_name: ingredient.name,
           quantity: 0,
           unit: ingredient.unit,
+          cost_price: ingredient.cost_price || 0,
         },
       ]);
     } else {
@@ -80,15 +105,18 @@ export default function SemiFinishedModal({ isOpen, onClose, onSuccess, restaura
           ingredient_name: ing.name,
           quantity: 0,
           unit: ing.unit,
+          cost_price: ing.cost_price || 0,
         }));
       setSelectedIngredients([...selectedIngredients, ...newIngredients]);
     }
   };
 
   const handleRemoveIngredient = (ingredientId) => {
-    setSelectedIngredients(
-      selectedIngredients.filter((i) => i.ingredient_id !== ingredientId)
-    );
+    if (deleteMethod === 'ingredient') {
+      setSelectedIngredients(
+        selectedIngredients.filter((i) => i.ingredient_id !== ingredientId)
+      );
+    }
   };
 
   const handleIngredientChange = (ingredientId, field, value) => {
@@ -97,6 +125,12 @@ export default function SemiFinishedModal({ isOpen, onClose, onSuccess, restaura
         i.ingredient_id === ingredientId ? { ...i, [field]: value } : i
       )
     );
+  };
+
+  const calculateTotalCost = () => {
+    return selectedIngredients.reduce((sum, ing) => {
+      return sum + (parseFloat(ing.quantity) || 0) * (parseFloat(ing.cost_price) || 0);
+    }, 0);
   };
 
   const onSubmit = async (data) => {
@@ -111,15 +145,21 @@ export default function SemiFinishedModal({ isOpen, onClose, onSuccess, restaura
       return;
     }
 
+    if (!outputAmount || parseFloat(outputAmount) <= 0) {
+      toast.error('Ümumi çıxış miqdarını daxil edin');
+      return;
+    }
+
     setLoading(true);
 
     try {
+      const totalCost = calculateTotalCost();
       const itemData = {
         ...data,
         restaurant_id: restaurantId,
-        quantity: parseFloat(data.quantity),
-        min_quantity: parseFloat(data.min_quantity),
         is_active: data.is_active === true || data.is_active === 'true',
+        output_amount: parseFloat(outputAmount),
+        total_cost: totalCost,
         ingredients: selectedIngredients.map((i) => ({
           ...i,
           quantity: parseFloat(i.quantity),
@@ -133,6 +173,7 @@ export default function SemiFinishedModal({ isOpen, onClose, onSuccess, restaura
       toast.success(item ? 'Yarımfabrikat yeniləndi' : 'Yarımfabrikat əlavə edildi');
       reset();
       setSelectedIngredients([]);
+      setOutputAmount(0);
       onSuccess(itemData);
       onClose();
     } catch (error) {
@@ -145,9 +186,11 @@ export default function SemiFinishedModal({ isOpen, onClose, onSuccess, restaura
 
   if (!isOpen) return null;
 
+  const totalCost = calculateTotalCost();
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden">
+      <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
           <h2 className="text-xl font-bold text-gray-900">
             {item ? 'Yarımfabrikatı Redaktə Et' : 'Yeni Yarımfabrikat'}
@@ -161,60 +204,56 @@ export default function SemiFinishedModal({ isOpen, onClose, onSuccess, restaura
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4 overflow-y-auto max-h-[calc(90vh-140px)]">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Yarımfabrikat Adı *
-            </label>
-            <input
-              type="text"
-              {...register('name', { required: 'Ad tələb olunur' })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="məs: Hazır xəmir"
-            />
-            {errors.name && (
-              <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
-            )}
-          </div>
-
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Ölçü vahidi *
+                Yarımfabrikat Adı *
+              </label>
+              <input
+                type="text"
+                {...register('name', { required: 'Ad tələb olunur' })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="məs: Hazır xəmir"
+              />
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Kateqoriya *
               </label>
               <select
-                {...register('unit', { required: 'Ölçü vahidi tələb olunur' })}
+                {...register('category_id', { required: 'Kateqoriya tələb olunur' })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="kg">Kiloqram (kg)</option>
-                <option value="l">Litr (l)</option>
-                <option value="pcs">Ədəd</option>
-                <option value="m">Metr (m)</option>
+                <option value="">Seçin</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
               </select>
+              {errors.category_id && (
+                <p className="mt-1 text-sm text-red-600">{errors.category_id.message}</p>
+              )}
             </div>
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Miqdar *
-              </label>
-              <input
-                type="number"
-                step="0.01"
-                {...register('quantity', { required: 'Miqdar tələb olunur', min: 0 })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Min. Miqdar *
-              </label>
-              <input
-                type="number"
-                step="0.01"
-                {...register('min_quantity', { required: 'Min. miqdar tələb olunur', min: 0 })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Ölçü vahidi *
+            </label>
+            <select
+              {...register('unit', { required: 'Ölçü vahidi tələb olunur' })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="kg">Kiloqram (kg)</option>
+              <option value="l">Litr (l)</option>
+              <option value="pcs">Ədəd</option>
+              <option value="m">Metr (m)</option>
+            </select>
           </div>
 
           <div>
@@ -223,6 +262,14 @@ export default function SemiFinishedModal({ isOpen, onClose, onSuccess, restaura
                 Tərkiblər *
               </label>
               <div className="flex items-center space-x-2">
+                <select
+                  value={deleteMethod}
+                  onChange={(e) => setDeleteMethod(e.target.value)}
+                  className="text-xs px-2 py-1 border border-gray-300 rounded"
+                >
+                  <option value="ingredient">Tərkibdən sil</option>
+                  <option value="all">Hamısını sil</option>
+                </select>
                 <button
                   type="button"
                   onClick={() => handleIngredientSelect(null, 'all')}
@@ -252,7 +299,7 @@ export default function SemiFinishedModal({ isOpen, onClose, onSuccess, restaura
                     Bağla
                   </button>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto">
                   {ingredients
                     .filter((ing) => !selectedIngredients.find((si) => si.ingredient_id === ing.id))
                     .map((ingredient) => (
@@ -286,10 +333,13 @@ export default function SemiFinishedModal({ isOpen, onClose, onSuccess, restaura
                       onChange={(e) =>
                         handleIngredientChange(ingredient.ingredient_id, 'quantity', e.target.value)
                       }
-                      className="w-28 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                      className="w-24 px-3 py-2 border border-gray-300 rounded-lg text-sm"
                       placeholder="Miqdar"
                     />
-                    <span className="text-sm text-gray-600 w-16">{ingredient.unit}</span>
+                    <span className="text-sm text-gray-600 w-12">{ingredient.unit}</span>
+                    <span className="text-sm text-gray-600 w-20">
+                      {((parseFloat(ingredient.quantity) || 0) * (parseFloat(ingredient.cost_price) || 0)).toFixed(2)} ₼
+                    </span>
                     <button
                       type="button"
                       onClick={() => handleRemoveIngredient(ingredient.ingredient_id)}
@@ -301,6 +351,37 @@ export default function SemiFinishedModal({ isOpen, onClose, onSuccess, restaura
                 ))}
               </div>
             )}
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 p-4 bg-blue-50 rounded-lg">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Ümumi Maya Dəyəri (Dəyişdirilə bilməz)
+              </label>
+              <input
+                type="text"
+                value={`${totalCost.toFixed(2)} ₼`}
+                readOnly
+                className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg text-gray-700 font-medium"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Ümumi Çıxış Miqdarı *
+              </label>
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-gray-600">{totalCost.toFixed(2)} ₼ =</span>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={outputAmount}
+                  onChange={(e) => setOutputAmount(e.target.value)}
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  placeholder="Miqdar"
+                />
+              </div>
+            </div>
           </div>
 
           <div className="flex items-center">

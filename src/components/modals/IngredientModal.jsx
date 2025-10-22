@@ -2,9 +2,11 @@ import { useForm } from 'react-hook-form';
 import { X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { supabase } from '../../lib/supabase';
 
-export default function IngredientModal({ isOpen, onClose, onSuccess, restaurantId, item = null }) {
+export default function IngredientModal({ isOpen, onClose, onSuccess, restaurantId, ingredient = null }) {
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const {
     register,
@@ -16,47 +18,56 @@ export default function IngredientModal({ isOpen, onClose, onSuccess, restaurant
     defaultValues: {
       is_active: true,
       unit: 'kg',
-      quantity: 0,
-      min_quantity: 0,
     },
   });
 
   useEffect(() => {
-    if (item) {
-      setValue('name', item.name);
-      setValue('unit', item.unit);
-      setValue('quantity', item.quantity);
-      setValue('min_quantity', item.min_quantity);
-      setValue('is_active', item.is_active);
-    } else {
-      reset({
-        is_active: true,
-        unit: 'kg',
-        quantity: 0,
-        min_quantity: 0,
-      });
+    if (restaurantId) {
+      loadCategories();
     }
-  }, [item, setValue, reset]);
+    if (ingredient) {
+      setValue('name', ingredient.name);
+      setValue('unit', ingredient.unit);
+      setValue('category_id', ingredient.category_id);
+      setValue('cost_price', ingredient.cost_price);
+      setValue('is_active', ingredient.is_active);
+    }
+  }, [ingredient, restaurantId, setValue]);
+
+  const loadCategories = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('categories')
+        .select('id, name')
+        .eq('restaurant_id', restaurantId)
+        .eq('is_active', true)
+        .order('name');
+
+      if (error) throw error;
+      setCategories(data || []);
+    } catch (error) {
+      console.error('Error loading categories:', error);
+    }
+  };
 
   const onSubmit = async (data) => {
     setLoading(true);
 
     try {
-      const itemData = {
+      const ingredientData = {
         ...data,
         restaurant_id: restaurantId,
-        quantity: parseFloat(data.quantity),
-        min_quantity: parseFloat(data.min_quantity),
+        cost_price: parseFloat(data.cost_price),
         is_active: data.is_active === true || data.is_active === 'true',
       };
 
-      if (item) {
-        itemData.id = item.id;
+      if (ingredient) {
+        ingredientData.id = ingredient.id;
       }
 
-      toast.success(item ? 'Tərkib yeniləndi' : 'Tərkib əlavə edildi');
+      toast.success(ingredient ? 'Tərkib yeniləndi' : 'Tərkib əlavə edildi');
       reset();
-      onSuccess(itemData);
+      onSuccess(ingredientData);
       onClose();
     } catch (error) {
       toast.error('Tərkib əməliyyatı zamanı xəta baş verdi');
@@ -70,10 +81,10 @@ export default function IngredientModal({ isOpen, onClose, onSuccess, restaurant
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full">
         <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
           <h2 className="text-xl font-bold text-gray-900">
-            {item ? 'Tərkibi Redaktə Et' : 'Yeni Tərkib'}
+            {ingredient ? 'Tərkibi Redaktə Et' : 'Yeni Tərkib'}
           </h2>
           <button
             onClick={onClose}
@@ -83,69 +94,74 @@ export default function IngredientModal({ isOpen, onClose, onSuccess, restaurant
           </button>
         </div>
 
-        <div className="p-6 space-y-4 overflow-y-auto max-h-[calc(90vh-140px)]">
+        <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Tərkib Adı *
             </label>
             <input
               type="text"
-              {...register('name', { required: 'Ad tələb olunur' })}
+              {...register('name', { required: 'Tərkib adı tələb olunur' })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="məs: Un, Pomidor, Süd"
+              placeholder="məs: Pomidor"
             />
             {errors.name && (
               <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
             )}
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Ölçü vahidi *
-              </label>
-              <select
-                {...register('unit', { required: 'Ölçü vahidi tələb olunur' })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="kg">Kiloqram (kg)</option>
-                <option value="l">Litr (l)</option>
-                <option value="pcs">Ədəd</option>
-                <option value="m">Metr (m)</option>
-                <option value="g">Qram (g)</option>
-                <option value="ml">Millilitr (ml)</option>
-              </select>
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Kateqoriya *
+            </label>
+            <select
+              {...register('category_id', { required: 'Kateqoriya tələb olunur' })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">Seçin</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+            {errors.category_id && (
+              <p className="mt-1 text-sm text-red-600">{errors.category_id.message}</p>
+            )}
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Miqdar *
-              </label>
-              <input
-                type="number"
-                step="0.01"
-                {...register('quantity', { required: 'Miqdar tələb olunur', min: 0 })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-              {errors.quantity && (
-                <p className="mt-1 text-sm text-red-600">{errors.quantity.message}</p>
-              )}
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Ölçü vahidi *
+            </label>
+            <select
+              {...register('unit', { required: 'Ölçü vahidi tələb olunur' })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="kg">Kiloqram (kg)</option>
+              <option value="l">Litr (l)</option>
+              <option value="pcs">Ədəd</option>
+              <option value="m">Metr (m)</option>
+            </select>
+            {errors.unit && (
+              <p className="mt-1 text-sm text-red-600">{errors.unit.message}</p>
+            )}
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Min. Miqdar *
-              </label>
-              <input
-                type="number"
-                step="0.01"
-                {...register('min_quantity', { required: 'Min. miqdar tələb olunur', min: 0 })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-              {errors.min_quantity && (
-                <p className="mt-1 text-sm text-red-600">{errors.min_quantity.message}</p>
-              )}
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Maya Dəyəri *
+            </label>
+            <input
+              type="number"
+              step="0.01"
+              {...register('cost_price', { required: 'Maya dəyəri tələb olunur', min: 0 })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="0.00"
+            />
+            {errors.cost_price && (
+              <p className="mt-1 text-sm text-red-600">{errors.cost_price.message}</p>
+            )}
           </div>
 
           <div className="flex items-center">
@@ -157,7 +173,7 @@ export default function IngredientModal({ isOpen, onClose, onSuccess, restaurant
             <label className="ml-2 text-sm text-gray-700">Aktiv</label>
           </div>
 
-          <div className="flex items-center justify-end space-x-4 pt-4 border-t border-gray-200">
+          <div className="flex items-center justify-end space-x-4 pt-4">
             <button
               type="button"
               onClick={onClose}
@@ -166,15 +182,14 @@ export default function IngredientModal({ isOpen, onClose, onSuccess, restaurant
               Ləğv et
             </button>
             <button
-              type="button"
-              onClick={handleSubmit(onSubmit)}
+              type="submit"
               disabled={loading}
               className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50"
             >
               {loading ? 'Əməliyyat...' : 'Yadda saxla'}
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
