@@ -98,7 +98,7 @@ export default function ModifiersPage({ restaurantId }) {
       <Sidebar />
       <div className="flex-1 overflow-y-auto p-6">
         <Header
-					title='Şöbələr'
+					title='Modffikatorlar'
 				/> 
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
