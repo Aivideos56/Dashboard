@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { getModifiers, addModifier, updateModifier, deleteModifier } from '../utils/storage';
 import ModifierModal from '../components/modals/ModifierModal';
 import Sidebar from '../components/layout/Sidebar';
+import Header from '../components/layout/Header';
 
 export default function ModifiersPage({ restaurantId }) {
   const [modifiers, setModifiers] = useState([]);
