@@ -108,13 +108,13 @@ export default function IngredientsPage({ restaurantId }) {
     <div className="min-h-screen bg-gray-50 p-6">
       <Sidebar />
       <div className="max-w-7xl mx-auto">
+        <Header
+					title='Şöbələr'
+				/> 
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Tərkiblər</h1>
           <p className="text-gray-600">Restoran tərkiblərini idarə edin</p>
         </div> 
-        <Header
-					title='Şöbələr'
-				/>
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
           <div className="flex items-center justify-between gap-4">
