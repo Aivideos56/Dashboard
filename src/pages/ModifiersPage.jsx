@@ -97,6 +97,9 @@ export default function ModifiersPage({ restaurantId }) {
     <div className="flex h-screen bg-gray-50">
       <Sidebar />
       <div className="flex-1 overflow-y-auto p-6">
+        <Header
+					title='Şöbələr'
+				/> 
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Modifikatorlar</h1>
