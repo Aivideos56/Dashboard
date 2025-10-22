@@ -93,10 +93,8 @@ export default function ModifiersPage({ restaurantId }) {
       console.error('Modifier operation error:', error);
     }
   };
- 
-  return (
-    <div>
-      <Sidebar />
+
+  return ( 
     <div className="flex h-screen bg-gray-50">
         <Header
 					title='Modffikatorlar'
@@ -222,7 +220,6 @@ export default function ModifiersPage({ restaurantId }) {
               </div>
             </div>
           )}
-        </div>
         </div>
 
         <ModifierModal
