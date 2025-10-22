@@ -95,8 +95,6 @@ export default function ModifiersPage({ restaurantId }) {
   };
 
   return (
-    <div>
-      <Sidebar />
     <div className="flex h-screen bg-gray-50">
         <Header
 					title='Modifikatorlar'
@@ -269,7 +267,6 @@ export default function ModifiersPage({ restaurantId }) {
           </div>
         )}
       </div>
-    </div>
     </div>
   );
 }
