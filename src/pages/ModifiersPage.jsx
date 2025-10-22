@@ -93,7 +93,7 @@ export default function ModifiersPage({ restaurantId }) {
       console.error('Modifier operation error:', error);
     }
   };
-
+ 
   return (
     <div>
       <Sidebar />
