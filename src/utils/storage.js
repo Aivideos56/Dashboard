@@ -8,17 +8,16 @@ const STORAGE_KEYS = {
 };
 
 export const setUser = (userData, type = 'restaurant') => {
-  console.log(userData)
+	console.log(userData);
 	try {
 		if (type === 'admin') {
 			localStorage.setItem('admin_user', JSON.stringify(userData));
 		}
 
 		if (type === 'restaurant') {
-			localStorage.setItem('restaurant_id', userData.id) ;
+			localStorage.setItem('restaurant_id', userData.id);
 			localStorage.setItem('branch_id', userData.branch_id);
 		}
-    
 	} catch (error) {
 		console.error('setUser error:', error);
 	}
@@ -705,7 +704,6 @@ export const deleteDepartment = async (departmentId) => {
 	}
 };
 
-
 // Ingredient operations
 export const getIngredients = async (restaurantId) => {
 	try {
@@ -804,6 +802,81 @@ export const deleteModifier = async (modifierId) => {
 	}
 };
 
+// Hall operations
+export const getHalls = async (restaurantId) => {
+	try {
+		const { data, error } = await supabase.from('halls').select('*').eq('restaurant_id', restaurantId).order('created_at', { ascending: false });
+
+		if (error) throw error;
+		return data || [];
+	} catch (error) {
+		console.error('Get halls error:', error);
+		return [];
+	}
+};
+
+export const addHall = async (hallData) => {
+	try {
+		const { data, error } = await supabase.from('halls').insert([hallData]).select().single();
+
+		if (error) throw error;
+		return { success: true, data };
+	} catch (error) {
+		console.error('Add hall error:', error);
+		return { success: false, error: error.message };
+	}
+};
+
+export const updateHall = async (hallId, hallData) => {
+	try {
+		const { data, error } = await supabase.from('halls').update(hallData).eq('id', hallId).select().single();
+
+		if (error) throw error;
+		return { success: true, data };
+	} catch (error) {
+		console.error('Update hall error:', error);
+		return { success: false, error: error.message };
+	}
+};
+
+export const deleteHall = async (hallId) => {
+	try {
+		const { error } = await supabase.from('halls').delete().eq('id', hallId);
+
+		if (error) throw error;
+		return { success: true };
+	} catch (error) {
+		console.error('Delete hall error:', error);
+		return { success: false, error: error.message };
+	}
+};
+
+// Get tables by hall
+export const getTablesByHall = async (hallId) => {
+	try {
+		const { data, error } = await supabase.from('tables').select('*').eq('hall_id', hallId).order('table_number', { ascending: true });
+
+		if (error) throw error;
+		return data || [];
+	} catch (error) {
+		console.error('Get tables by hall error:', error);
+		return [];
+	}
+};
+
+// Get table count for hall
+export const getHallTableCount = async (hallId) => {
+	try {
+		const { count, error } = await supabase.from('tables').select('*', { count: 'exact', head: true }).eq('hall_id', hallId);
+
+		if (error) throw error;
+		return count || 0;
+	} catch (error) {
+		console.error('Get hall table count error:', error);
+		return 0;
+	}
+};
+
 export const storageUtils = {
 	setUser,
 	getUser,
@@ -849,16 +922,22 @@ export const storageUtils = {
 	getOrders,
 	addOrder,
 	findUser,
-  getDepartments,
-  addDepartment,
-  updateDepartment,
-  deleteDepartment,
-  getIngredients,
-  addIngredient,
-  updateIngredient,
-  deleteIngredient,
-  getModifiers,
-  addModifier,
-  updateModifier,
-  deleteModifier
+	getDepartments,
+	addDepartment,
+	updateDepartment,
+	deleteDepartment,
+	getIngredients,
+	addIngredient,
+	updateIngredient,
+	deleteIngredient,
+	getModifiers,
+	addModifier,
+	updateModifier,
+	deleteModifier,
+	getHalls,
+	addHall,
+	updateHall,
+	deleteHall,
+	getHallTableCount,
+	getTablesByHall,
 };
