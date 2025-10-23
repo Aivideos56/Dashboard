@@ -17,6 +17,7 @@ import SettingsPage from './pages/SettingsPage';
 import HallsPage from './pages/HallsPage';
 import HallTablesPage from './pages/HallTablesPage';
 import SemiFinishedPage from './pages/SemiFinishedPage';
+import WarehousePage from './pages/WarehousePage';
 import DepartmentPage from './pages/DepartmentsPage'
 import IngredientsPage from './pages/IngredientsPage'
 import ModifiersPage from './pages/ModifiersPage'
@@ -100,7 +101,16 @@ function App() {
 							</ProtectedRoute>
 						}
 					/>
-          
+
+					<Route
+						path='/warehouse'
+						element={
+							<ProtectedRoute>
+								<WarehousePage />
+							</ProtectedRoute>
+						}
+					/>
+
           <Route
 						path='/ingredients'
 						element={

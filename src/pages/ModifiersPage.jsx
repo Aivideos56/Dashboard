@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Search, Edit2, Trash2, AlertCircle } from 'lucide-react';
+import { Search, Edit2, Trash2, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { getModifiers, addModifier, updateModifier, deleteModifier } from '../utils/storage';
 import ModifierModal from '../components/modals/ModifierModal';
@@ -105,7 +105,7 @@ export default function ModifiersPage({ restaurantId }) {
 						</div>
 
 						<div className='bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6'>
-							<div className='flex items-center justify-between gap-4'>
+							<div className='flex items-center gap-4'>
 								<div className='flex-1 relative'>
 									<Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5' />
 									<input
@@ -116,13 +116,6 @@ export default function ModifiersPage({ restaurantId }) {
 										className='w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
 									/>
 								</div>
-								<button
-									onClick={handleAddModifier}
-									className='flex items-center space-x-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium'
-								>
-									<Plus className='w-5 h-5' />
-									<span>Yeni Modifikator</span>
-								</button>
 							</div>
 						</div>
 
@@ -134,18 +127,9 @@ export default function ModifiersPage({ restaurantId }) {
 							<div className='bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center'>
 								<AlertCircle className='w-12 h-12 text-gray-400 mx-auto mb-4' />
 								<h3 className='text-lg font-medium text-gray-900 mb-2'>{searchTerm ? 'Nəticə tapılmadı' : 'Modifikator yoxdur'}</h3>
-								<p className='text-gray-600 mb-6'>
-									{searchTerm ? 'Axtarış üçün başqa açar söz cəhd edin' : 'Başlamaq üçün ilk modifikatorunuzu əlavə edin'}
+								<p className='text-gray-600'>
+									{searchTerm ? 'Axtarış üçün başqa açar söz cəhd edin' : 'Modifikatorlar məhsul əlavə edərkən yaradılır'}
 								</p>
-								{!searchTerm && (
-									<button
-										onClick={handleAddModifier}
-										className='inline-flex items-center space-x-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium'
-									>
-										<Plus className='w-5 h-5' />
-										<span>Yeni Modifikator Əlavə Et</span>
-									</button>
-								)}
 							</div>
 						) : (
 							<div className='bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden'>
