@@ -39,7 +39,7 @@ export default function Sidebar() {
 				</div>
 			</div>
 
-			<nav className='p-2 space-y-1'>
+			<nav className='p-0 space-y-1'>
 				{menuItems.map((item) => (
 					<NavLink
 						key={item.path}
