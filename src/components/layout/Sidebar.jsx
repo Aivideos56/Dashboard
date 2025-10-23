@@ -45,7 +45,7 @@ export default function Sidebar() {
 						key={item.path}
 						to={item.path}
 						className={({ isActive }) =>
-							`flex items-center space-x-3 px-4 py-3 rounded-lg transition ${isActive ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100'}`
+							`flex items-center space-x-3 px-3 py-2 rounded-lg transition ${isActive ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100'}`
 						}
 					>
 						<item.icon className='w-5 h-5' />
