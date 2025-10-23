@@ -21,6 +21,7 @@ import WarehousePage from './pages/WarehousePage';
 import DepartmentPage from './pages/DepartmentsPage'
 import IngredientsPage from './pages/IngredientsPage'
 import ModifiersPage from './pages/ModifiersPage'
+import DepotPage from './pages/depot'
 
 function App() {
 	return (
