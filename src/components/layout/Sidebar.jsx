@@ -16,9 +16,9 @@ export default function Sidebar() {
 		{ path: '/ingredients', name: 'İnqredientlər', icon: ChefHat },
 		{ path: '/modifiers', name: 'Modifikatorlar', icon: ChefHat },
 		{ path: '/orders', name: 'Sifarişlər', icon: ShoppingCart },
+		{ path: '/warehouse', name: 'Anbar', icon: Settings },
 		{ path: '/statistics', name: 'Statistika', icon: TrendingUp },
 		{ path: '/settings', name: 'Parametrlər', icon: Settings },
-		{ path: '/warehouse', name: 'Anbar', icon: Settings },
 	];
 
 	return (
